@@ -9,13 +9,14 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   try {
+    const {user} = req.session
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
     const query = req.query.q ? JSON.parse(req.query.q) : {};
     const sort = req.query.sort || {};
     const products = await Product.paginate(req,query,page,limit,sort)
    
-    res.render('products', { products,style: "products.css" });
+    res.render('products', { products,style: "products.css",user });
   //res.json(products)
   }
   catch (error) {
